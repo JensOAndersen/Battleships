@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.539
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SinkingBattleships", "SinkingBattleships\SinkingBattleships.csproj", "{B7BA70BD-5852-43AC-BFAF-D63D5D879FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleshipsGame", "BattleshipsGame\BattleshipsGame.csproj", "{1308DE64-32D9-40BB-8FFD-58E8038F5ED0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7BA70BD-5852-43AC-BFAF-D63D5D879FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7BA70BD-5852-43AC-BFAF-D63D5D879FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7BA70BD-5852-43AC-BFAF-D63D5D879FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7BA70BD-5852-43AC-BFAF-D63D5D879FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1308DE64-32D9-40BB-8FFD-58E8038F5ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1308DE64-32D9-40BB-8FFD-58E8038F5ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1308DE64-32D9-40BB-8FFD-58E8038F5ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1308DE64-32D9-40BB-8FFD-58E8038F5ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75EA7BBD-16DE-4218-AD0B-BE23A391547D}
+	EndGlobalSection
+EndGlobal
