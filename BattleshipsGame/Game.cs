@@ -39,19 +39,19 @@ namespace BattleshipsGame
         public string GreetMessage()
         {
             string output =
-                "Velkommen til Sænke Slagskibe! \n" +
-                "Du har nu følgende muligheder: \n" +
-                "1. Start nyt spil \n" +
-                "2. Se highscores \n" +
-                "3. Forlad spillet \n" +
-                "4. Start et nyt spil";
+                "Welcome to Battleships \n" +
+                "You have the following menu options: \n" +
+                "1. Enter player names and begin\n" +
+                "2. Highscores\n" +
+                "3. Leave the game\n" +
+                "4. Create a new game with new players";
 
             return output;
         }
 
         public string WrongMenuChoice()
         {
-            return "Tryk venligst på en knap svarende til punkterne i menueen";
+            return "Please press a button corresponding to a menu item";
         }
 
         public (bool isValid, string message) IsValidName(string v)
@@ -60,15 +60,15 @@ namespace BattleshipsGame
 
             if (string.IsNullOrEmpty(input))
             {
-                return (false, "Spilleren skal have et navn");
+                return (false, "The player must have a name");
             }
             else if (input == Players[0].Name || input == Players[1].Name)
             {
-                return (false, "Spilleren eksisterer allerede");
+                return (false, "The player already exists");
             }
             else
             {
-                return (true, "Spilleren er oprettet");
+                return (true, "The player has been created");
             }
         }
 
@@ -105,15 +105,15 @@ namespace BattleshipsGame
         public string ShipPlacementMessage(Ship ship)
         {
             string output =
-                $"Du er ved at placere et {ship.Name}, hvor ønsker du det skal være? \n" +
-                $"Koordinater skrives ind som 'c4', for at placere på kolonne c, række 4 \n" +
-                $"derefter fulgt at hvilken retning dit skib skal pege, eks: c4 tw \n" +
-                "Retninger:\n" +
+                $"You are placing a {ship.Name}, where do you want it to be? \n" +
+                $"Koordinates are entered in the following format 'c4' for column c, row 4\n" +
+                $"followed by the direction you want the ship to point, ex: 'c4 tw'\n" +
+                "directions:\n" +
                 "'tw' - to west\n" +
                 "'te' - to east\n" +
                 "'ts' - to south\n" +
                 "'tn' - to north\n" +
-                $"Dit skib har størrelsen: {ship.Size} felter"
+                $"your takes up {ship.Size} fields"
                 ;
 
             return output;
@@ -125,12 +125,12 @@ namespace BattleshipsGame
 
             if (string.IsNullOrEmpty(input))
             {
-                return (false, "Du må ikke angive en tom position");
+                return (false, "You are not allowed to enter an empty position");
             }
 
             if (input.Length != 5 || input[2] != ' ')
             {
-                return (false, "kommandoen er ugyldig");
+                return (false, "The command is invalid");
             }
 
             int yStart = 0;
@@ -155,7 +155,7 @@ namespace BattleshipsGame
                 case "tn":
                     if (yStart - ship.Size < 0)
                     {
-                        return (false, "Du prøver at placere et skib udenfor spillebanen mod nord");
+                        return (false, "You are trying to place a ship outside the playing field towards north");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
@@ -167,7 +167,7 @@ namespace BattleshipsGame
                 case "te":
                     if (xStart + ship.Size > Players[player].ShipMap.GetLength(1))
                     {
-                        return (false, "Du prøver at placere et skib udenfor spillebanen mod øst");
+                        return (false, "You are trying to place a ship outside the playing field towards east");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
@@ -179,7 +179,7 @@ namespace BattleshipsGame
                 case "ts":
                     if (yStart + ship.Size > Players[player].ShipMap.GetLength(0))
                     {
-                        return (false, "Du prøver at placere et skib udenfor spillebanen mod syd");
+                        return (false, "You are trying to place a ship outside the playing field towards south");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
@@ -191,7 +191,7 @@ namespace BattleshipsGame
                 case "tw":
                     if (xStart - ship.Size < 0)
                     {
-                        return (false, "Du prøver at placere et skib udenfor spillebanen mod vest");
+                        return (false, "You are trying to place a ship outside the playing field towards west");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
@@ -201,10 +201,10 @@ namespace BattleshipsGame
                     break;
 
                 default:
-                    return (false, "du angav ikke en gyldig retning");
+                    return (false, "You entered an invalid direction");
             }
 
-            return (true, "Hvordan er du nået hertil!?");
+            return (true, "How did you even reach this case?!");
         }
 
         public bool IsRunning()
@@ -256,13 +256,13 @@ namespace BattleshipsGame
                 enemyShipMap[y, x] = "x";
                 player.HitMap[y, x] = "x";
 
-                return (true, "Du ramte et skib!");
+                return (true, "You hit a ship");
             }
             else
             {
                 enemyShipMap[y, x] = "o";
                 player.HitMap[y, x] = "o";
-                return (true, "Du ramte ved siden af");
+                return (true, "You missed");
             }
         }
 
@@ -286,12 +286,12 @@ namespace BattleshipsGame
 
             if (string.IsNullOrEmpty(input))
             {
-                return (false, "Du må ikke angive en tom position", 0, 0);
+                return (false, "You are not allowed to enter an empty position", 0, 0);
             }
 
             if (input.Length != 2)
             {
-                return (false, "kommandoen er ugyldig", 0, 0);
+                return (false, "The command is invalid", 0, 0);
             }
 
             string stringXStart = input[0].ToString();
@@ -300,12 +300,12 @@ namespace BattleshipsGame
 
             if (!int.TryParse(input[1].ToString(), out yValue))
             {
-                return (false, "Rækkeværdien er ugyldig", 0, 0);
+                return (false, "The row value is invalid", 0, 0);
             }
 
             if (!letterToInt.ContainsKey(stringXStart))
             {
-                return (false, "kolonne værdien findes ikke", 0, 0);
+                return (false, "The column value is invalid", 0, 0);
             }
             else
             {
@@ -329,12 +329,12 @@ namespace BattleshipsGame
                     player.HitMap[yValue, xValue] == "x" ||
                     player.HitMap[yValue, xValue] == "o")
                 {
-                    return (false, "Du har allerede skudt på dette koordinat tidligere", 0, 0);
+                    return (false, "This coordinate has already been hit once", 0, 0);
                 }
             }
             else
             {
-                return (false, "Du rammer udenfor kortet :(", 0, 0);
+                return (false, "You're aiming outside the map",0, 0);
             }
 
             return (true, "Success", xValue, yValue);
@@ -345,8 +345,8 @@ namespace BattleshipsGame
             Player player = Players[GetPlayerTurn];
 
             string output =
-                $"{player.Name} Det er din tur, dine bræt ser ud som følgende: \n" +
-                $"Dine skibsplaceringer:                             Dine skud på modstanderens bræt: \n";
+                $"{player.Name} It is your turn, here is your maps: \n" +
+                $"Placement of your ships:                             Your shots at the opponents board: \n";
 
             string[] hitMap = CreateMap(player.HitMap);
             string[] shipMap = CreateMap(player.ShipMap);
@@ -357,7 +357,7 @@ namespace BattleshipsGame
                 output += "\n";
             }
 
-            output += "Skyd på modstanderen ved at skrive koordinater ind på hans skibe i formatet 'c3' eller 'd8'\n";
+            output += "Enter a coordinate on the opponents map, by entering coordinates in the format 'c3' or 'd8'";
 
             return output;
         }

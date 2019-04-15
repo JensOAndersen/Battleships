@@ -7,6 +7,8 @@ namespace SinkingBattleships
     {
         static void Main(string[] args)
         {
+
+            #region Explanation of development (in danish)
             //4 2d arrays, hver spiller skal have 2 2d arrays der holder styr på hvor 
             //han /hun har ramt samt hvilke af sine egne brikker der er blevet ramt.
 
@@ -36,6 +38,7 @@ namespace SinkingBattleships
              * - Logik til at håndtere selve spillet, give brugerne besked om deres skibe er ramt og så videre
              * - Postgame skal laves, give brugeren besked om hvem der vandt, samt at skrive highscores ind i highscores.txt
              */
+            #endregion
 
             Game game = new Game("c:/output/battleships.txt");
 
@@ -55,7 +58,7 @@ namespace SinkingBattleships
 
                             for (int i = 0; i < 2; i++)
                             {
-                                Console.WriteLine("Skriv navnet for Spiller " + (i + 1));
+                                Console.WriteLine("Please enter name for player " + (i + 1));
 
                                 (bool isValid, string message) proposedName;
 
@@ -119,7 +122,7 @@ namespace SinkingBattleships
                     }
                 }
 
-                Console.WriteLine("Spillebrættene er parate, let the games begin");
+                Console.WriteLine("The game boards are ready, the game is now beginning");
                 do
                 {
                     game.Turns++;
