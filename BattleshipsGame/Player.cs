@@ -26,6 +26,7 @@ namespace BattleshipsGame
                     map[y, x] = " ";
                 }
             }
+            //test;
         }
     }
 }
