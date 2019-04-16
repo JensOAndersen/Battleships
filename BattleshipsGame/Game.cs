@@ -77,40 +77,6 @@ namespace BattleshipsGame
             }
         }
 
-        public string GetHitMapForPlayer(int player)
-        {
-            return string.Join('\n', CreateMap(Players[player].HitMap));
-        }
-
-        public string GetShipMapForPlayer(int player)
-        {
-            return string.Join('\n', CreateMap(Players[player].ShipMap));
-        }
-
-        /// <summary>
-        /// Creates a visual representation of map
-        /// </summary>
-        /// <param name="map">2D array of map map, each element in the array being a field</param>
-        /// <returns>an array of lines in a multiline map</returns>
-        private string[] CreateMap(string[,] map)
-        {
-            List<string> output = new List<string>();
-            output.Add("------------------------------------------");
-
-            for (int y = 0; y < map.GetLength(0); y++)
-            {
-                string line = "|";
-
-                for (int x = 0; x < map.GetLength(1); x++)
-                {
-                    line += $" {map[y, x]} |";
-                }
-                output.Add(line);
-                output.Add("------------------------------------------");
-            }
-
-            return output.ToArray();
-        }
 
         public string ShipPlacementMessage(Ship ship)
         {
@@ -223,7 +189,7 @@ namespace BattleshipsGame
         /// <returns></returns>
         public bool IsRunning()
         {
-            string[,] enemyShipMap = Players[(Turns + 1) % 2].ShipMap;
+            string[,] enemyShipMap = Players[(Turns + 1) % 2].ShipMap.Map;
 
             bool isStillAlive = false;
 
@@ -368,8 +334,8 @@ namespace BattleshipsGame
                 $"{player.Name} It is your turn, here is your maps: \n" +
                 $"Placement of your ships:                             Your shots at the opponents board: \n";
 
-            string[] hitMap = CreateMap(player.HitMap);
-            string[] shipMap = CreateMap(player.ShipMap);
+            string[] hitMap = FlatMap.CreateMap(player.HitMap);
+            string[] shipMap = FlatMap.CreateMap(player.ShipMap);
 
             for (int i = 0; i < hitMap.Length; i++)
             {
