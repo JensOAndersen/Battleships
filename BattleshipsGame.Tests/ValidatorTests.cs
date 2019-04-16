@@ -1,10 +1,11 @@
+using BattleshipsGame.Utils;
 using System;
 using Xunit;
 
 
 namespace BattleshipsGame.Tests
 {
-    public class FlatMapTests
+    public class ValidatorTests
     {
         [Theory]
         [InlineData("c4")]
@@ -14,7 +15,7 @@ namespace BattleshipsGame.Tests
         {
 
             Assert.True(
-                FlatMap.IsValidCoordinate(position).isValid, $"The coordinate {position} is valid"   
+                Validators.IsValidCoordinate(position).isValid, $"The coordinate {position} is valid"   
             );
         }
     }

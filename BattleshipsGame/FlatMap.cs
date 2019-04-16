@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BattleshipsGame.Utils;
 
 namespace BattleshipsGame
 {
@@ -12,8 +13,8 @@ namespace BattleshipsGame
     {
         private string[,] map;
 
-        private const int mapXSize = 10;
-        private const int mapYSize = 10;
+        public const int mapXSize = 10;
+        public const int mapYSize = 10;
 
         //this needs to be refactored so the map itself cant be accessed outside the flatmap class
         public string[,] Map
@@ -46,7 +47,7 @@ namespace BattleshipsGame
 
             try
             {
-                var validationResult = FlatMap.StringToCoordinate(str);
+                var validationResult = Converters.StringToCoordinate(str);
 
                 x = validationResult.x;
                 y = validationResult.y;
@@ -57,10 +58,11 @@ namespace BattleshipsGame
             }
 
             if (
-                map[y, x] != " "
+                map[y, x] == "x" ||
+                map[y, x] == "o" 
                 )
             {
-                return (false, "This coordinate has already been marked once");
+                return (false, "This coordinate has already been marked");
             }
             else
             {
@@ -92,54 +94,6 @@ namespace BattleshipsGame
         }
 
         /// <summary>
-        /// Checks if a coordinate is valid
-        /// </summary>
-        /// <param name="str">string in the format [a-j][0-9]</param>
-        /// <returns>the result of the validation</returns>
-        public static (bool isValid, string message) IsValidCoordinate(string str)
-        {
-            string input = str.Trim();
-
-            if (string.IsNullOrEmpty(input))
-            {
-                return (false, "You are not allowed to enter an empty position");
-            }
-
-            if (input.Length != 2)
-            {
-                return (false, "The command is invalid");
-            }
-
-            string stringXStart = input[0].ToString();
-            int yValue = 0;
-            int xValue = 0;
-
-            if (!int.TryParse(input[1].ToString(), out yValue))
-            {
-                return (false, "The row value is invalid");
-            }
-
-            xValue = LetterToInt(stringXStart);
-
-            //test if x and y is within map, and if you have targeted the same location before
-            int yMin = 0;
-            int xMin = 0;
-            int yMax = mapYSize;
-            int xMax = mapXSize;
-
-
-            if (xValue >= xMin &&
-                xValue < xMax &&
-                yValue >= yMin &&
-                yValue < yMax)
-            {
-                return (true, "Success");
-            }
-
-            return (false, "You're aiming outside the map");
-        }
-
-        /// <summary>
         /// Creates a visual representation of map as an array of lines
         /// </summary>
         /// <returns>an array of lines in a multiline map</returns>
@@ -166,58 +120,7 @@ namespace BattleshipsGame
             return output.ToArray();
         }
 
-        /// <summary>
-        /// Converts a letter to the corresponding integer
-        /// </summary>
-        /// <param name="letter">Letter to be converted</param>
-        /// <returns>the corresponding integer a=0, b=1 etc</returns>
-        public static int LetterToInt(string letter)
-        {
-            Dictionary<string, int> letterToInt = new Dictionary<string, int>
-            {
-                {"a",0 },
-                {"b",1 },
-                {"c",2 },
-                {"d",3 },
-                {"e",4 },
-                {"f",5 },
-                {"g",6 },
-                {"h",7 },
-                {"i",8 },
-                {"j",9 },
-            };
 
-            if (letterToInt.ContainsKey(letter))
-            {
-                return letterToInt[letter];
-            }
-            else
-            {
-                throw new IndexOutOfRangeException("The letter given does not respond to a coordinate");
-            }
-        }
-
-        /// <summary>
-        /// Converts a string to a coordinate set
-        /// </summary>
-        /// <param name="str">String in the format [a-j][0-9]</param>
-        /// <returns>Converted x and y values</returns>
-        public static (int x, int y) StringToCoordinate(string str)
-        {
-            str = str.Trim();
-            var validationResult = IsValidCoordinate(str);
-            if (validationResult.isValid)
-            {
-                int x = LetterToInt(str.Substring(0, 1));
-                int y = int.Parse(str.Substring(1, 1));
-
-                return (x, y);
-            }
-            else
-            {
-                throw new ArgumentException("String is an invalid coordinate");
-            }
-        }
         #endregion Static Methods
     }
 }

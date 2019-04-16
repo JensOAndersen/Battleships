@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleshipsGame.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -112,11 +113,11 @@ namespace BattleshipsGame
             int yStart = 0;
             int xStart = 0;
 
-            var validationResult = FlatMap.IsValidCoordinate(input.Substring(0, 2));
+            var validationResult = Validators.IsValidCoordinate(input.Substring(0, 2));
 
             if (validationResult.isValid)
             {
-                var conversionResult = FlatMap.StringToCoordinate(input.Substring(0, 2));
+                var conversionResult = Converters.StringToCoordinate(input.Substring(0, 2));
                 yStart = conversionResult.y;
                 xStart = conversionResult.x;
             }
@@ -213,7 +214,7 @@ namespace BattleshipsGame
         /// <returns>IsValid is a bool indicating whether or not it is possible to shoot at the location, message is the returning message</returns>
         public (bool isValid, string message) ShootAtEnemy(string input)
         {
-            var validationResult = FlatMap.IsValidCoordinate(input);
+            var validationResult = Validators.IsValidCoordinate(input);
             if (!validationResult.isValid)
             {
                 return (false, validationResult.message);
@@ -226,7 +227,7 @@ namespace BattleshipsGame
             Player player = Players[GetPlayerTurn];
 
 
-            var coordinate = FlatMap.StringToCoordinate(input);
+            var coordinate = Converters.StringToCoordinate(input);
 
             //this is pretty ugly :/
             if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyPlayer.ShipMap.Map[coordinate.y, coordinate.x]).Count() == 1)
