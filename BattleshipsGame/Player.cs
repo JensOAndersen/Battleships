@@ -16,6 +16,18 @@ namespace BattleshipsGame
             PopulateMap(HitMap);
         }
 
+        /*
+         * This should be refactored into a MapLogic class, and an ILogic Interface, to support different type of map logic.
+         * 
+         * The current map is reliant on a 2d array of empty strings, it can be refactored into a dictionary instead, 
+         * it would make it easier to look through.
+         * 
+         * The current 2D Array solution is because its easier for me to visualize when making the game.
+         */
+        /// <summary>
+        /// Populates the inputted player map
+        /// </summary>
+        /// <param name="input">The map to be populated</param>
         private void PopulateMap(string[,] input)
         {
             string[,] map = input;
@@ -26,7 +38,6 @@ namespace BattleshipsGame
                     map[y, x] = " ";
                 }
             }
-            //test;
         }
     }
 }

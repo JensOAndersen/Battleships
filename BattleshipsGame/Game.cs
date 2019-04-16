@@ -54,9 +54,14 @@ namespace BattleshipsGame
             return "Please press a button corresponding to a menu item";
         }
 
-        public (bool isValid, string message) IsValidName(string v)
+        /// <summary>
+        /// Validates a name with IsNullOrEmpty, and whether it currently exists
+        /// </summary>
+        /// <param name="name">Name to be validated</param>
+        /// <returns>A boolean indicating whether it was a success or not, and a message</returns>
+        public (bool isValid, string message) IsValidName(string name)
         {
-            string input = v.Trim();
+            string input = name.Trim();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -207,6 +212,10 @@ namespace BattleshipsGame
             return (true, "How did you even reach this case?!");
         }
 
+        /// <summary>
+        /// Returning true if the game is still running
+        /// </summary>
+        /// <returns></returns>
         public bool IsRunning()
         {
             string[,] enemyShipMap = Players[(Turns + 1) % 2].ShipMap;
