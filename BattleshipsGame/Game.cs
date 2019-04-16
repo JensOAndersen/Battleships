@@ -96,95 +96,6 @@ namespace BattleshipsGame
             return output;
         }
 
-        public (bool isValid, string message) PlaceShip(string str, Ship ship, int player)
-        { //input is in the format "c4 te" - hopefully
-            string input = str.Trim();
-
-            if (string.IsNullOrEmpty(input))
-            {
-                return (false, "You are not allowed to enter an empty position");
-            }
-
-            if (input.Length != 5 || input[2] != ' ')
-            {
-                return (false, "The command is invalid");
-            }
-
-            int yStart = 0;
-            int xStart = 0;
-
-            var validationResult = Validators.IsValidCoordinate(input.Substring(0, 2));
-
-            if (validationResult.isValid)
-            {
-                var conversionResult = Converters.StringToCoordinate(input.Substring(0, 2));
-                yStart = conversionResult.y;
-                xStart = conversionResult.x;
-            }
-            else
-            {
-                return (false, validationResult.message);
-            }
-
-            string direction = input.Substring(3);
-
-            switch (direction)
-            {
-                case "tn":
-                    if (yStart - ship.Size < 0)
-                    {
-                        return (false, "You are trying to place a ship outside the playing field towards north");
-                    }
-
-                    for (int i = 0; i < ship.Size; i++)
-                    {
-                        Players[player].ShipMap.Map[yStart - i, xStart] = ship.Icon;
-                    }
-                    break;
-
-                case "te":
-                    if (xStart + ship.Size > Players[player].ShipMap.Map.GetLength(1))
-                    {
-                        return (false, "You are trying to place a ship outside the playing field towards east");
-                    }
-
-                    for (int i = 0; i < ship.Size; i++)
-                    {
-                        Players[player].ShipMap.Map[yStart, xStart + i] = ship.Icon;
-                    }
-                    break;
-
-                case "ts":
-                    if (yStart + ship.Size > Players[player].ShipMap.Map.GetLength(0))
-                    {
-                        return (false, "You are trying to place a ship outside the playing field towards south");
-                    }
-
-                    for (int i = 0; i < ship.Size; i++)
-                    {
-                        Players[player].ShipMap.Map[yStart + i, xStart] = ship.Icon;
-                    }
-                    break;
-
-                case "tw":
-                    if (xStart - ship.Size < 0)
-                    {
-                        return (false, "You are trying to place a ship outside the playing field towards west");
-                    }
-
-                    for (int i = 0; i < ship.Size; i++)
-                    {
-                        Players[player].ShipMap.Map[yStart, xStart - i] = ship.Icon;
-                    }
-                    break;
-
-                default:
-                    return (false, "You entered an invalid direction");
-            }
-
-            return (true, "How did you even reach this case?!");
-        }
-
         /// <summary>
         /// Returning true if the game is still running
         /// </summary>
@@ -243,6 +154,11 @@ namespace BattleshipsGame
                 player.HitMap.MarkCoordinate(input, 'o');
                 return (true, "You missed");
             }
+        }
+
+        public (bool isValid, string message) PlaceShip(string input, Ship ship, int playerNumber)
+        {
+            return Players[playerNumber].ShipMap.PlaceShip(input, ship);
         }
 
         /// <summary>
