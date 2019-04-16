@@ -58,30 +58,27 @@ namespace BattleshipsGame
         /// <returns>Whether its valid or not, the validation message, the x and y positions</returns>
         public static(bool isValid, string message, int x, int y) StringToCoordinate(string str)
         {
-            string input = str.Trim();
-
-            Dictionary<string, int> letterToInt = new Dictionary<string, int>
+            if (
+                    player.HitMap[yValue, xValue] == "x" ||
+                    player.HitMap[yValue, xValue] == "o")
             {
-                {"a",0 },
-                {"b",1 },
-                {"c",2 },
-                {"d",3 },
-                {"e",4 },
-                {"f",5 },
-                {"g",6 },
-                {"h",7 },
-                {"i",8 },
-                {"j",9 },
-            };
+                return (false, "This coordinate has already been hit once", 0, 0);
+            }
+
+        }
+
+        public static (bool isValid, string message) IsValidCoordinate(string str)
+        {
+            string input = str.Trim();
 
             if (string.IsNullOrEmpty(input))
             {
-                return (false, "You are not allowed to enter an empty position", 0, 0);
+                return (false, "You are not allowed to enter an empty position");
             }
 
             if (input.Length != 2)
             {
-                return (false, "The command is invalid", 0, 0);
+                return (false, "The command is invalid");
             }
 
             string stringXStart = input[0].ToString();
@@ -90,17 +87,10 @@ namespace BattleshipsGame
 
             if (!int.TryParse(input[1].ToString(), out yValue))
             {
-                return (false, "The row value is invalid", 0, 0);
+                return (false, "The row value is invalid");
             }
 
-            if (!letterToInt.ContainsKey(stringXStart))
-            {
-                return (false, "The column value is invalid", 0, 0);
-            }
-            else
-            {
-                xValue = letterToInt[stringXStart];
-            }
+            xValue = LetterToInt(stringXStart);
 
             //test if x and y is within map, and if you have targeted the same location before
             int yMin = 0;
@@ -114,21 +104,11 @@ namespace BattleshipsGame
                 yValue >= yMin &&
                 yValue < yMax)
             {
-                if (
-                    player.HitMap[yValue, xValue] == "x" ||
-                    player.HitMap[yValue, xValue] == "o")
-                {
-                    return (false, "This coordinate has already been hit once", 0, 0);
-                }
-            }
-            else
-            {
-                return (false, "You're aiming outside the map", 0, 0);
+                return (true, "Success");
             }
 
-            return (true, "Success", xValue, yValue);
+            return (false, "You're aiming outside the map");
         }
-
 
         /// <summary>
         /// Creates a visual representation of map as an array of lines
@@ -155,6 +135,31 @@ namespace BattleshipsGame
             }
 
             return output.ToArray();
+        }
+
+        public static int LetterToInt(string letter)
+        {
+            Dictionary<string, int> letterToInt = new Dictionary<string, int>
+            {
+                {"a",0 },
+                {"b",1 },
+                {"c",2 },
+                {"d",3 },
+                {"e",4 },
+                {"f",5 },
+                {"g",6 },
+                {"h",7 },
+                {"i",8 },
+                {"j",9 },
+            };
+
+            if (letterToInt.ContainsKey(letter))
+            {
+                return letterToInt[letter];
+            } else
+            {
+                throw new IndexOutOfRangeException("The letter given does not respond to a coordinate");
+            }
         }
         #endregion Static Methods
     }
