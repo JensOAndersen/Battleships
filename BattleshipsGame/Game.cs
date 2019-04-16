@@ -22,11 +22,11 @@ namespace BattleshipsGame
         /// </summary>
         public Dictionary<Ship, int> ShipsAvailableInGame { get; } = new Dictionary<Ship, int>
         {
-            {new Ship{Icon = "A", Name = "Aircraft Carrier", Size = 6 }, 1 },
-            {new Ship{Icon = "B", Name = "Battleship", Size = 5 }, 1 },
-            {new Ship{Icon = "C", Name = "Cruiser", Size = 4 }, 1 },
-            {new Ship{Icon = "D", Name = "Destroyer", Size = 3 }, 2 },
-            {new Ship{Icon = "S", Name = "Submarine", Size = 1 }, 1 }
+            //{new Ship{Icon = "A", Name = "Aircraft Carrier", Size = 6 }, 1 },
+            //{new Ship{Icon = "B", Name = "Battleship", Size = 5 }, 1 },
+            {new Ship{Icon = "C", Name = "Cruiser", Size = 4 }, 1 }//,
+            //{new Ship{Icon = "D", Name = "Destroyer", Size = 3 }, 2 },
+            //{new Ship{Icon = "S", Name = "Submarine", Size = 1 }, 1 }
         };
 
         private string saveDir;
@@ -222,14 +222,12 @@ namespace BattleshipsGame
 
             bool isStillAlive = false;
 
-            for (int yPos = 0; yPos < enemyShipMap.GetLength(0); yPos++)
+
+            foreach (var item in enemyShipMap)
             {
-                for (int xPos = 0; xPos < enemyShipMap.GetLength(1); xPos++)
+                if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == item).Count() == 1)
                 {
-                    if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyShipMap[yPos, xPos]).Count() == 1)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
