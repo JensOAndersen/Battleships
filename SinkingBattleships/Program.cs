@@ -122,7 +122,11 @@ namespace SinkingBattleships
                     }
                 }
 
-                Console.WriteLine("The game boards are ready, the game is now beginning");
+                Console.WriteLine("The game boards are ready, press enter to begin the game");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                //Main game loop
                 do
                 {
                     game.Turns++;

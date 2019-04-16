@@ -221,13 +221,14 @@ namespace BattleshipsGame
             string[,] enemyShipMap = Players[(Turns + 1) % 2].ShipMap;
 
             bool isStillAlive = false;
+
             for (int yPos = 0; yPos < enemyShipMap.GetLength(0); yPos++)
             {
                 for (int xPos = 0; xPos < enemyShipMap.GetLength(1); xPos++)
                 {
                     if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyShipMap[yPos, xPos]).Count() == 1)
                     {
-                        isStillAlive = true;
+                        return true;
                     }
                 }
             }
@@ -235,6 +236,11 @@ namespace BattleshipsGame
             return isStillAlive;
         }
 
+        /// <summary>
+        /// Tries to shoot at a coordinate
+        /// </summary>
+        /// <param name="input">string coordinate in the format [a-j][0-10]</param>
+        /// <returns>IsValid is a bool indicating whether or not it is possible to shoot at the location, message is the returning message</returns>
         public (bool isValid, string message) ShootAtEnemy(string input)
         {
             var stringToCoordinateResult = StringToCoordinate(input);
@@ -268,6 +274,11 @@ namespace BattleshipsGame
             }
         }
 
+        /// <summary>
+        /// Transforms and validates a coordinate string
+        /// </summary>
+        /// <param name="str">the string to be transformed into coordinates</param>
+        /// <returns>Whether its valid or not, the validation message, the x and y positions</returns>
         private (bool isValid, string message, int x, int y) StringToCoordinate(string str)
         {
             string input = str.Trim();
@@ -342,6 +353,10 @@ namespace BattleshipsGame
             return (true, "Success", xValue, yValue);
         }
 
+        /// <summary>
+        /// Greeting message at the start of each round
+        /// </summary>
+        /// <returns>A greeting message</returns>
         public string StartRoundMsg()
         {
             Player player = Players[GetPlayerTurn];
