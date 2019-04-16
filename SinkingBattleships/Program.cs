@@ -117,7 +117,7 @@ namespace SinkingBattleships
                             {
                                 Console.WriteLine(shipPlacementResult.message);
                             }
-                            Console.WriteLine(game.GetShipMapForPlayer(0));
+                            Console.WriteLine(game.GetShipMapForPlayer(playerNumber));
                         }
                     }
                 }

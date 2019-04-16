@@ -87,6 +87,11 @@ namespace BattleshipsGame
             return string.Join('\n', CreateMap(Players[player].ShipMap));
         }
 
+        /// <summary>
+        /// Creates a visual representation of map
+        /// </summary>
+        /// <param name="map">2D array of map map, each element in the array being a field</param>
+        /// <returns>an array of lines in a multiline map</returns>
         private string[] CreateMap(string[,] map)
         {
             List<string> output = new List<string>();
