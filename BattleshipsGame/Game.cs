@@ -125,6 +125,8 @@ namespace BattleshipsGame
         /// <returns>IsValid is a bool indicating whether or not it is possible to shoot at the location, message is the returning message</returns>
         public (bool isValid, string message) ShootAtEnemy(string input)
         {
+            input = input.ToLower();
+
             var validationResult = Validators.IsValidCoordinate(input);
             if (!validationResult.isValid)
             {
@@ -158,6 +160,7 @@ namespace BattleshipsGame
 
         public (bool isValid, string message) PlaceShip(string input, Ship ship, int playerNumber)
         {
+            input = input.ToLower();
             return Players[playerNumber].ShipMap.PlaceShip(input, ship);
         }
 

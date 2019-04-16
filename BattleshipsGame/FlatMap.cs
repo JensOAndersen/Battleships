@@ -9,7 +9,7 @@ namespace BattleshipsGame
     /*
      * You are working on the validation methods, splitting them up sot he methods only return a single coherent value
      */
-    public class FlatMap
+    public class FlatMap : IMap
     {
         private string[,] map;
 
@@ -185,24 +185,25 @@ namespace BattleshipsGame
         /// Creates a visual representation of map as an array of lines
         /// </summary>
         /// <returns>an array of lines in a multiline map</returns>
-        public static string[] CreateMap(FlatMap map)
+        public static string[] CreateMap(IMap map)
         {
             List<string> output = new List<string>();
 
             string[,] workingMap = map.Map;
+            output.Add("  | a | b | c | d | e | f | g | h | i | j |");
 
-            output.Add("------------------------------------------");
+            output.Add("  -----------------------------------------");
 
             for (int y = 0; y < workingMap.GetLength(0); y++)
             {
-                string line = "|";
+                string line = y + " |";
 
                 for (int x = 0; x < workingMap.GetLength(1); x++)
                 {
                     line += $" {workingMap[y, x]} |";
                 }
                 output.Add(line);
-                output.Add("------------------------------------------");
+                output.Add("  -----------------------------------------");
             }
 
             return output.ToArray();
