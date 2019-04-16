@@ -232,14 +232,7 @@ namespace BattleshipsGame
                 }
             }
 
-            if (isStillAlive)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return isStillAlive;
         }
 
         public (bool isValid, string message) ShootAtEnemy(string input)
