@@ -7,7 +7,7 @@ namespace BattleshipsGame
 
     /*
      * You are working on the validation methods, splitting them up sot he methods only return a single coherent value
-     */ 
+     */
     public class FlatMap
     {
         private string[,] map;
@@ -32,6 +32,47 @@ namespace BattleshipsGame
             PopulateMap(map);
         }
 
+        /// <summary>
+        /// Sends a shot towards a coordinate
+        /// </summary>
+        /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
+        /// <returns>Whether its valid or not, the validation message</returns>
+        public (bool isValid, string message) MarkCoordinate(string str, char icon)
+        {
+            str = str.Trim();
+
+            int x = 0;
+            int y = 0;
+
+            try
+            {
+                var validationResult = FlatMap.StringToCoordinate(str);
+
+                x = validationResult.x;
+                y = validationResult.y;
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+
+            if (
+                map[y, x] != " "
+                )
+            {
+                return (false, "This coordinate has already been marked once");
+            }
+            else
+            {
+                map[y, x] = icon.ToString();
+                return (true, "Success!");
+            }
+        }
+
+
+
+
+        #region Static Methods
 
         /// <summary>
         /// Populates the inputted player map
@@ -50,23 +91,11 @@ namespace BattleshipsGame
             }
         }
 
-        #region Static Methods
         /// <summary>
-        /// Transforms and validates a coordinate string
+        /// Checks if a coordinate is valid
         /// </summary>
-        /// <param name="str">the string to be transformed into coordinates</param>
-        /// <returns>Whether its valid or not, the validation message, the x and y positions</returns>
-        public static(bool isValid, string message, int x, int y) StringToCoordinate(string str)
-        {
-            if (
-                    player.HitMap[yValue, xValue] == "x" ||
-                    player.HitMap[yValue, xValue] == "o")
-            {
-                return (false, "This coordinate has already been hit once", 0, 0);
-            }
-
-        }
-
+        /// <param name="str">string in the format [a-j][0-9]</param>
+        /// <returns>the result of the validation</returns>
         public static (bool isValid, string message) IsValidCoordinate(string str)
         {
             string input = str.Trim();
@@ -137,6 +166,11 @@ namespace BattleshipsGame
             return output.ToArray();
         }
 
+        /// <summary>
+        /// Converts a letter to the corresponding integer
+        /// </summary>
+        /// <param name="letter">Letter to be converted</param>
+        /// <returns>the corresponding integer a=0, b=1 etc</returns>
         public static int LetterToInt(string letter)
         {
             Dictionary<string, int> letterToInt = new Dictionary<string, int>
@@ -156,9 +190,32 @@ namespace BattleshipsGame
             if (letterToInt.ContainsKey(letter))
             {
                 return letterToInt[letter];
-            } else
+            }
+            else
             {
                 throw new IndexOutOfRangeException("The letter given does not respond to a coordinate");
+            }
+        }
+
+        /// <summary>
+        /// Converts a string to a coordinate set
+        /// </summary>
+        /// <param name="str">String in the format [a-j][0-9]</param>
+        /// <returns>Converted x and y values</returns>
+        public static (int x, int y) StringToCoordinate(string str)
+        {
+            str = str.Trim();
+            var validationResult = IsValidCoordinate(str);
+            if (validationResult.isValid)
+            {
+                int x = LetterToInt(str.Substring(0, 1));
+                int y = int.Parse(str.Substring(1, 1));
+
+                return (x, y);
+            }
+            else
+            {
+                throw new ArgumentException("String is an invalid coordinate");
             }
         }
         #endregion Static Methods

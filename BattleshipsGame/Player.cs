@@ -7,8 +7,8 @@ namespace BattleshipsGame
     public class Player
     {
         public string Name { get; set; }
-        public FlatMap ShipMap { get; set; } = new FlatMap();
-        public FlatMap HitMap { get; set; } = new FlatMap();
+        public FlatMap ShipMap { get; } = new FlatMap();
+        public FlatMap HitMap { get; } = new FlatMap();
         public Player()
         {}
     }

@@ -106,6 +106,7 @@ namespace SinkingBattleships
                         for (int j = 0; j < shipKvP.Value; j++)
                         {
                             Console.WriteLine(game.ShipPlacementMessage(shipKvP.Key));
+
                             (bool isValid, string message) shipPlacementResult;
 
                             //ad ad ad, fiks det her
@@ -117,7 +118,7 @@ namespace SinkingBattleships
                             {
                                 Console.WriteLine(shipPlacementResult.message);
                             }
-                            Console.WriteLine(game.GetShipMapForPlayer(playerNumber));
+                            //Console.WriteLine(game.GetShipMapForPlayer(playerNumber));
                         }
                     }
                 }

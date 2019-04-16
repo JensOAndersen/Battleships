@@ -7,9 +7,9 @@ namespace BattleshipsGame.Tests
     public class FlatMapTests
     {
         [Theory]
-        [InlineData("C4")]
-        [InlineData("J9")]
-        [InlineData("A0")]
+        [InlineData("c4")]
+        [InlineData("j9")]
+        [InlineData("a0")]
         public void TestIsValidCoordinate(string position)
         {
 

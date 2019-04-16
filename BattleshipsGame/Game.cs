@@ -112,16 +112,17 @@ namespace BattleshipsGame
             int yStart = 0;
             int xStart = 0;
 
-            var stringToCoordinateResult = StringToCoordinate(input.Substring(0, 2));
+            var validationResult = FlatMap.IsValidCoordinate(input.Substring(0, 2));
 
-            if (!stringToCoordinateResult.isValid)
+            if (validationResult.isValid)
             {
-                return (false, stringToCoordinateResult.message);
+                var conversionResult = FlatMap.StringToCoordinate(input.Substring(0, 2));
+                yStart = conversionResult.y;
+                xStart = conversionResult.x;
             }
             else
             {
-                yStart = stringToCoordinateResult.y;
-                xStart = stringToCoordinateResult.x;
+                return (false, validationResult.message);
             }
 
             string direction = input.Substring(3);
@@ -136,31 +137,31 @@ namespace BattleshipsGame
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        Players[player].ShipMap[yStart - i, xStart] = ship.Icon;
+                        Players[player].ShipMap.Map[yStart - i, xStart] = ship.Icon;
                     }
                     break;
 
                 case "te":
-                    if (xStart + ship.Size > Players[player].ShipMap.GetLength(1))
+                    if (xStart + ship.Size > Players[player].ShipMap.Map.GetLength(1))
                     {
                         return (false, "You are trying to place a ship outside the playing field towards east");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        Players[player].ShipMap[yStart, xStart + i] = ship.Icon;
+                        Players[player].ShipMap.Map[yStart, xStart + i] = ship.Icon;
                     }
                     break;
 
                 case "ts":
-                    if (yStart + ship.Size > Players[player].ShipMap.GetLength(0))
+                    if (yStart + ship.Size > Players[player].ShipMap.Map.GetLength(0))
                     {
                         return (false, "You are trying to place a ship outside the playing field towards south");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        Players[player].ShipMap[yStart + i, xStart] = ship.Icon;
+                        Players[player].ShipMap.Map[yStart + i, xStart] = ship.Icon;
                     }
                     break;
 
@@ -172,7 +173,7 @@ namespace BattleshipsGame
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        Players[player].ShipMap[yStart, xStart - i] = ship.Icon;
+                        Players[player].ShipMap.Map[yStart, xStart - i] = ship.Icon;
                     }
                     break;
 
@@ -212,38 +213,36 @@ namespace BattleshipsGame
         /// <returns>IsValid is a bool indicating whether or not it is possible to shoot at the location, message is the returning message</returns>
         public (bool isValid, string message) ShootAtEnemy(string input)
         {
-            var stringToCoordinateResult = StringToCoordinate(input);
-            if (!stringToCoordinateResult.isValid)
+            var validationResult = FlatMap.IsValidCoordinate(input);
+            if (!validationResult.isValid)
             {
-                return (false, stringToCoordinateResult.message);
+                return (false, validationResult.message);
             }
-
-            int x = stringToCoordinateResult.x;
-            int y = stringToCoordinateResult.y;
 
             //burde opdatere dette til next player eller enemyplayer properties/metoder
             Player enemyPlayer = Players[(Turns + 1) % 2];
-            string[,] enemyShipMap = enemyPlayer.ShipMap;
+            FlatMap enemyShipMap = enemyPlayer.ShipMap;
 
             Player player = Players[GetPlayerTurn];
 
+
+            var coordinate = FlatMap.StringToCoordinate(input);
+
             //this is pretty ugly :/
-            if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyPlayer.ShipMap[y, x]).Count() == 1)
+            if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyPlayer.ShipMap.Map[coordinate.y, coordinate.x]).Count() == 1)
             {
-                enemyShipMap[y, x] = "x";
-                player.HitMap[y, x] = "x";
+                enemyShipMap.MarkCoordinate(input, 'x');
+                player.HitMap.MarkCoordinate(input, 'x');
 
                 return (true, "You hit a ship");
             }
             else
             {
-                enemyShipMap[y, x] = "o";
-                player.HitMap[y, x] = "o";
+                enemyShipMap.MarkCoordinate(input, 'o');
+                player.HitMap.MarkCoordinate(input, 'o');
                 return (true, "You missed");
             }
         }
-
-       
 
         /// <summary>
         /// Greeting message at the start of each round
