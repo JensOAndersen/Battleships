@@ -1,7 +1,9 @@
-﻿namespace BattleshipsGame
+﻿using System.Collections;
+
+namespace BattleshipsGame
 {
     public interface IMap
     {
-        string[,] Map { get; }
+        IEnumerable Map { get; }
     }
 }

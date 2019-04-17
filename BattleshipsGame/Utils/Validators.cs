@@ -34,7 +34,7 @@ namespace BattleshipsGame.Utils
                 return (false, "The row value is invalid");
             }
 
-            xValue = Converters.LetterToInt(charXStart);
+            xValue = Converters.CharToInt(charXStart);
 
             //test if x and y is within map, and if you have targeted the same location before
             int yMin = 0;
