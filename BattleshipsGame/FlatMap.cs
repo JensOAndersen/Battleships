@@ -71,7 +71,12 @@ namespace BattleshipsGame
             }
         }
 
-
+        /// <summary>
+        /// Places a ship on the map
+        /// </summary>
+        /// <param name="str">the coordinate positions of the ship, as well as directions</param>
+        /// <param name="ship">The ship to be placed</param>
+        /// <returns>whether it succeeded or not, and a message</returns>
         public (bool isValid, string message) PlaceShip(string str, Ship ship)
         { //input is in the format "c4 te" - hopefully
             string input = str.Trim();
@@ -160,7 +165,6 @@ namespace BattleshipsGame
 
             return (true, "How did you even reach this case?!");
         }
-
 
         #region Static Methods
 

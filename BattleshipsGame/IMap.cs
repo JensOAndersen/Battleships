@@ -2,5 +2,6 @@
 {
     public interface IMap
     {
+        string[,] Map { get; }
     }
 }

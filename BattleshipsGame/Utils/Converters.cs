@@ -11,29 +11,14 @@ namespace BattleshipsGame.Utils
         /// </summary>
         /// <param name="letter">Letter to be converted</param>
         /// <returns>the corresponding integer a=0, b=1 etc</returns>
-        public static int LetterToInt(string letter)
+        public static int LetterToInt(char letter)
         {
-            Dictionary<string, int> letterToInt = new Dictionary<string, int>
+            if (letter >= 'a' && letter <= 'j')
             {
-                {"a",0 },
-                {"b",1 },
-                {"c",2 },
-                {"d",3 },
-                {"e",4 },
-                {"f",5 },
-                {"g",6 },
-                {"h",7 },
-                {"i",8 },
-                {"j",9 },
-            };
-
-            if (letterToInt.ContainsKey(letter))
+                return letter - 97;
+            } else
             {
-                return letterToInt[letter];
-            }
-            else
-            {
-                throw new IndexOutOfRangeException("The letter given does not respond to a coordinate");
+                throw new ArgumentException("Please enter a column coordinate between 'a' and 'j'");
             }
         }
 
@@ -48,8 +33,8 @@ namespace BattleshipsGame.Utils
             var validationResult = Validators.IsValidCoordinate(str);
             if (validationResult.isValid)
             {
-                int x = LetterToInt(str.Substring(0, 1));
-                int y = int.Parse(str.Substring(1, 1));
+                int x = LetterToInt(str[0]);
+                int y = int.Parse(str[1].ToString());
 
                 return (x, y);
             }
