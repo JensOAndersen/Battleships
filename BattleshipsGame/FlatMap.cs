@@ -9,12 +9,9 @@ namespace BattleshipsGame
     /*
      * You are working on the validation methods, splitting them up sot he methods only return a single coherent value
      */
-    public class FlatMap
+    public class FlatMap : Map
     {
         private string[,] map;
-
-        public const int mapXSize = 10;
-        public const int mapYSize = 10;
 
         //this needs to be refactored so the map itself cant be accessed outside the flatmap class
         public string[,] Map
@@ -38,7 +35,7 @@ namespace BattleshipsGame
         /// </summary>
         /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
         /// <returns>Whether its valid or not, the validation message</returns>
-        public (bool isValid, string message) MarkCoordinate(string str, char icon)
+        public override(bool isValid, string message) MarkCoordinate(string str, char icon)
         {
             str = str.Trim();
 
@@ -77,7 +74,7 @@ namespace BattleshipsGame
         /// <param name="str">the coordinate positions of the ship, as well as directions</param>
         /// <param name="ship">The ship to be placed</param>
         /// <returns>whether it succeeded or not, and a message</returns>
-        public (bool isValid, string message) PlaceShip(string str, Ship ship)
+        public override(bool isValid, string message) PlaceShip(string str, Ship ship)
         { //input is in the format "c4 te" - hopefully
             string input = str.Trim();
 
@@ -166,53 +163,5 @@ namespace BattleshipsGame
             return (true, "How did you even reach this case?!");
         }
 
-        #region Static Methods
-
-        /// <summary>
-        /// Populates the inputted player map
-        /// </summary>
-        /// <param name="input">The map to be populated</param>
-        private static void PopulateMap(string[,] input)
-        {
-            string[,] map = input;
-
-            for (int y = 0; y < map.GetLength(0); y++)
-            {
-                for (int x = 0; x < map.GetLength(1); x++)
-                {
-                    map[y, x] = " ";
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates a visual representation of map as an array of lines
-        /// </summary>
-        /// <returns>an array of lines in a multiline map</returns>
-        public static string[] CreateMap(FlatMap map)
-        {
-            List<string> output = new List<string>();
-
-            string[,] workingMap = map.Map;
-            output.Add("  | a | b | c | d | e | f | g | h | i | j |");
-
-            output.Add("  -----------------------------------------");
-
-            for (int y = 0; y < workingMap.GetLength(0); y++)
-            {
-                string line = y + " |";
-
-                for (int x = 0; x < workingMap.GetLength(1); x++)
-                {
-                    line += $" {workingMap[y, x]} |";
-                }
-                output.Add(line);
-                output.Add("  -----------------------------------------");
-            }
-
-            return output.ToArray();
-        }
-
-        #endregion Static Methods
     }
 }
