@@ -39,8 +39,8 @@ namespace BattleshipsGame.Utils
             //test if x and y is within map, and if you have targeted the same location before
             int yMin = 0;
             int xMin = 0;
-            int yMax = Map.mapYSize;
-            int xMax = Map.mapXSize;
+            int yMax = MapAbstract.mapYSize;
+            int xMax = MapAbstract.mapXSize;
 
 
             if (xValue >= xMin &&

@@ -130,7 +130,7 @@ namespace BattleshipsGame
         /// </summary>
         /// <param name="input">string coordinate in the format [a-j][0-10]</param>
         /// <returns>IsValid is a bool indicating whether or not it is possible to shoot at the location, message is the returning message</returns>
-        public (bool isValid, string message) ShootAtEnemy(string input)
+        public (bool isValid, string message) ShootAtEnemy(string input) //c4
         {
             input = input.ToLower();
 
@@ -147,22 +147,17 @@ namespace BattleshipsGame
             Player player = Players[GetPlayerTurn];
 
 
-            var coordinate = Converters.StringToCoordinate(input);
+            var coordinate = Converters.StringToCoordinate(input); //c4 converted into (x = 3, y = 4)
 
-            //this is pretty ugly :/
-            if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyPlayer.ShipMap.Map[coordinate.y, coordinate.x]).Count() == 1)
-            {
-                enemyShipMap.ShootAtCoordinate(input, 'x');
-                player.HitMap.ShootAtCoordinate(input, 'x');
+            var shotresult = enemyShipMap.ShootAtCoordinate(coordinate);
 
-                return (true, "You hit a ship");
-            }
-            else
+            if (shotresult.isValid)
             {
-                enemyShipMap.ShootAtCoordinate(input, 'o');
-                player.HitMap.ShootAtCoordinate(input, 'o');
-                return (true, "You missed");
+                player.HitMap.ShootAtCoordinate(coordinate);
             }
+
+            return shotresult;
+
         }
 
         public (bool isValid, string message) PlaceShip(string input, Ship ship, int playerNumber)

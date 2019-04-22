@@ -9,11 +9,11 @@ namespace BattleshipsGame
     /*
      * You are working on the validation methods, splitting them up sot he methods only return a single coherent value
      */
-    public class FlatMap : Map
+    public class FlatMap : MapAbstract
     {
-        public Dictionary<(int x, int y),string> Map
+        public FlatMap()
         {
-            get { return map; }
+            map = new Dictionary<(int x, int y), string>();
         }
 
         /// <summary>
@@ -21,35 +21,24 @@ namespace BattleshipsGame
         /// </summary>
         /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
         /// <returns>Whether its valid or not, the validation message</returns>
-        public override (bool isValid, string message) ShootAtCoordinate(string str, char icon)
+        public override (bool isValid, string message) ShootAtCoordinate((int x, int y) coordinate)
         {
-            str = str.Trim();
-
-            (int x, int y) coordinate;
-
-            try
+            if (map.ContainsKey(coordinate))
             {
-                coordinate = Converters.StringToCoordinate(str);
-
-            }
-            catch (Exception ex)
-            {
-                return (false, ex.Message);
-            }
-
-
-            if (map.ContainsKey(coordinate) &&
-                (
-                    map[coordinate] == "x" ||
+                if (map[coordinate] == "x" ||
                     map[coordinate] == "o")
-                )
-            {
-                return (false, "This coordinate has already been shot at");
+                {
+                    return (false, "This coordinate has already been shot at");
+                } else
+                {
+                    map[coordinate] = "x";
+                    return (true, "You hit a ship!!");
+                }
             }
             else
             {
-                map.Add(coordinate, icon.ToString());
-                return (true, "Success!");
+                map.Add(coordinate, "o");
+                return (true, "You missed the shot unfortunately");
             }
 
         }

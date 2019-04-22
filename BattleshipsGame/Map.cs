@@ -3,9 +3,14 @@ using System.Collections.Generic;
 
 namespace BattleshipsGame
 {
-    public abstract class Map
+    public abstract class MapAbstract
     {
         protected Dictionary<(int x, int y),string> map;
+
+        public Dictionary<(int x, int y), string> Map
+        {
+            get { return map; }
+        }
 
         public const int mapXSize = 10;
         public const int mapYSize = 10;
@@ -15,7 +20,7 @@ namespace BattleshipsGame
         /// </summary>
         /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
         /// <returns>Whether its valid or not, the validation message</returns>
-        public abstract (bool isValid, string message) ShootAtCoordinate(string str, char icon);
+        public abstract (bool isValid, string message) ShootAtCoordinate((int x, int y) coordinate);
 
         /// <summary>
         /// Places a ship on the map
@@ -24,6 +29,8 @@ namespace BattleshipsGame
         /// <param name="ship">The ship to be placed</param>
         /// <returns>whether it succeeded or not, and a message</returns>
         public abstract (bool isValid, string message) PlaceShip(string str, Ship ship);
+
+
 
         #region Static Methods
 
@@ -48,22 +55,33 @@ namespace BattleshipsGame
         /// Creates a visual representation of map as an array of lines
         /// </summary>
         /// <returns>an array of lines in a multiline map</returns>
-        public static string[] CreateMap(Map map)
+        public static string[] CreateMap(MapAbstract map)
         {
             List<string> output = new List<string>();
 
-            string[,] workingMap = map.Map;
+            var workingMap = map.Map;
+
             output.Add("  | a | b | c | d | e | f | g | h | i | j |");
 
             output.Add("  -----------------------------------------");
 
-            for (int y = 0; y < workingMap.GetLength(0); y++)
+            for (int y = 0; y < mapYSize; y++)
             {
                 string line = y + " |";
 
-                for (int x = 0; x < workingMap.GetLength(1); x++)
+                for (int x = 0; x < mapXSize; x++)
                 {
-                    line += $" {workingMap[y, x]} |";
+
+                    (int x, int y) coordinate = (x, y);
+
+                    string mapValue = " ";
+
+                    if (workingMap.ContainsKey(coordinate))
+                    {
+                        mapValue = workingMap[coordinate];
+                    }
+
+                    line += $" {mapValue} |";
                 }
                 output.Add(line);
                 output.Add("  -----------------------------------------");
