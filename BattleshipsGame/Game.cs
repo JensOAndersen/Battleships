@@ -110,7 +110,7 @@ namespace BattleshipsGame
         /// <returns></returns>
         public bool IsRunning()
         {
-            var enemyShipMap = Players[(Turns + 1) % 2].ShipMap.Map;
+            var enemyShipMap = Players[Turns % 2].ShipMap.Map;
 
             bool isStillAlive = false;
 
