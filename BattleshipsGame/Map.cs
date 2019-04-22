@@ -5,15 +5,17 @@ namespace BattleshipsGame
 {
     public abstract class Map
     {
-        protected const int mapXSize = 10;
-        protected const int mapYSize = 10;
+        protected Dictionary<(int x, int y),string> map;
+
+        public const int mapXSize = 10;
+        public const int mapYSize = 10;
 
         /// <summary>
         /// Sends a shot towards a coordinate
         /// </summary>
         /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
         /// <returns>Whether its valid or not, the validation message</returns>
-        public abstract (bool isValid, string message) MarkCoordinate(string str, char icon);
+        public abstract (bool isValid, string message) ShootAtCoordinate(string str, char icon);
 
         /// <summary>
         /// Places a ship on the map

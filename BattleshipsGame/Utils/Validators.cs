@@ -39,8 +39,8 @@ namespace BattleshipsGame.Utils
             //test if x and y is within map, and if you have targeted the same location before
             int yMin = 0;
             int xMin = 0;
-            int yMax = FlatMap.mapYSize;
-            int xMax = FlatMap.mapXSize;
+            int yMax = Map.mapYSize;
+            int xMax = Map.mapXSize;
 
 
             if (xValue >= xMin &&

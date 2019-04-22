@@ -11,61 +11,43 @@ namespace BattleshipsGame
      */
     public class FlatMap : Map
     {
-        private string[,] map;
-
-        //this needs to be refactored so the map itself cant be accessed outside the flatmap class
-        public string[,] Map
-        {
-            get
-            {
-                return map;
-            }
-        }
-
-        public FlatMap()
-        {
-
-            map = new string[mapYSize, mapXSize];
-
-            PopulateMap(map);
-        }
 
         /// <summary>
         /// Sends a shot towards a coordinate
         /// </summary>
         /// <param name="str">The string coordinates in the format[a-j[0-9]</param>
         /// <returns>Whether its valid or not, the validation message</returns>
-        public override(bool isValid, string message) MarkCoordinate(string str, char icon)
+        public override (bool isValid, string message) ShootAtCoordinate(string str, char icon)
         {
             str = str.Trim();
 
-            int x = 0;
-            int y = 0;
+            (int x, int y) coordinate;
 
             try
             {
-                var validationResult = Converters.StringToCoordinate(str);
+                coordinate = Converters.StringToCoordinate(str);
 
-                x = validationResult.x;
-                y = validationResult.y;
             }
             catch (Exception ex)
             {
                 return (false, ex.Message);
             }
 
-            if (
-                map[y, x] == "x" ||
-                map[y, x] == "o" 
+
+            if (map.ContainsKey(coordinate) &&
+                (
+                    map[coordinate] == "x" ||
+                    map[coordinate] == "o")
                 )
             {
-                return (false, "This coordinate has already been marked");
+                return (false, "This coordinate has already been shot at");
             }
             else
             {
-                map[y, x] = icon.ToString();
+                map.Add(coordinate, icon.ToString());
                 return (true, "Success!");
             }
+
         }
 
         /// <summary>
@@ -74,7 +56,7 @@ namespace BattleshipsGame
         /// <param name="str">the coordinate positions of the ship, as well as directions</param>
         /// <param name="ship">The ship to be placed</param>
         /// <returns>whether it succeeded or not, and a message</returns>
-        public override(bool isValid, string message) PlaceShip(string str, Ship ship)
+        public override (bool isValid, string message) PlaceShip(string str, Ship ship)
         { //input is in the format "c4 te" - hopefully
             string input = str.Trim();
 

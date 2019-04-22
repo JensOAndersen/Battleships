@@ -153,15 +153,15 @@ namespace BattleshipsGame
             //this is pretty ugly :/
             if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == enemyPlayer.ShipMap.Map[coordinate.y, coordinate.x]).Count() == 1)
             {
-                enemyShipMap.MarkCoordinate(input, 'x');
-                player.HitMap.MarkCoordinate(input, 'x');
+                enemyShipMap.ShootAtCoordinate(input, 'x');
+                player.HitMap.ShootAtCoordinate(input, 'x');
 
                 return (true, "You hit a ship");
             }
             else
             {
-                enemyShipMap.MarkCoordinate(input, 'o');
-                player.HitMap.MarkCoordinate(input, 'o');
+                enemyShipMap.ShootAtCoordinate(input, 'o');
+                player.HitMap.ShootAtCoordinate(input, 'o');
                 return (true, "You missed");
             }
         }
