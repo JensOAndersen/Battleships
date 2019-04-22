@@ -31,7 +31,7 @@ namespace BattleshipsGame
         /// Populates the inputted player map
         /// </summary>
         /// <param name="input">The map to be populated</param>
-        protected static void PopulateMap(string[,] input)
+        protected static void PopulateMap(string[,] input) //unused?
         {
             string[,] map = input;
 

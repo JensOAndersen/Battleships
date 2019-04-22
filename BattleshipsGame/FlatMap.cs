@@ -11,6 +11,10 @@ namespace BattleshipsGame
      */
     public class FlatMap : Map
     {
+        public Dictionary<(int x, int y),string> Map
+        {
+            get { return map; }
+        }
 
         /// <summary>
         /// Sends a shot towards a coordinate
@@ -57,26 +61,26 @@ namespace BattleshipsGame
         /// <param name="ship">The ship to be placed</param>
         /// <returns>whether it succeeded or not, and a message</returns>
         public override (bool isValid, string message) PlaceShip(string str, Ship ship)
-        { //input is in the format "c4 te" - hopefully
-
+        {
+            //input is already validated from the method calling this
 
             int yStart = 0;
             int xStart = 0;
 
-            var validationResult = Validators.IsValidCoordinate(input.Substring(0, 2));
+            var validationResult = Validators.IsValidCoordinate(str.Substring(0, 2));
 
             if (validationResult.isValid)
             {
-                var conversionResult = Converters.StringToCoordinate(input.Substring(0, 2));
+                var conversionResult = Converters.StringToCoordinate(str.Substring(0, 2));
                 yStart = conversionResult.y;
                 xStart = conversionResult.x;
             }
             else
             {
-                return (false, validationResult.message);
+                return validationResult;
             }
 
-            string direction = input.Substring(3);
+            string direction = str.Substring(3);
 
             switch (direction)
             {
@@ -88,31 +92,35 @@ namespace BattleshipsGame
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        map[yStart - i, xStart] = ship.Icon;
+                        map.Add((xStart, yStart - i), ship.Icon);
                     }
                     break;
 
                 case "te":
-                    if (xStart + ship.Size > map.GetLength(1))
+                    if (xStart + ship.Size > mapXSize)
+                    /*TODO:
+                    * There might be an edge case error here, as mapXSize is the max size with the last value excluded, as arrays with a length of 10 has the max index of 9
+                    * create unit test for this?
+                    */
                     {
                         return (false, "You are trying to place a ship outside the playing field towards east");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        map[yStart, xStart + i] = ship.Icon;
+                        map.Add((xStart + i, yStart), ship.Icon);
                     }
                     break;
 
                 case "ts":
-                    if (yStart + ship.Size > map.GetLength(0))
+                    if (yStart + ship.Size > mapYSize)
                     {
                         return (false, "You are trying to place a ship outside the playing field towards south");
                     }
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        map[yStart + i, xStart] = ship.Icon;
+                        map.Add((xStart, yStart + i), ship.Icon);
                     }
                     break;
 
@@ -124,7 +132,7 @@ namespace BattleshipsGame
 
                     for (int i = 0; i < ship.Size; i++)
                     {
-                        map[yStart, xStart - i] = ship.Icon;
+                        map.Add((xStart - i, yStart), ship.Icon);
                     }
                     break;
 

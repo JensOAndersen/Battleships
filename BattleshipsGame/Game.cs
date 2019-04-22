@@ -110,12 +110,11 @@ namespace BattleshipsGame
         /// <returns></returns>
         public bool IsRunning()
         {
-            string[,] enemyShipMap = Players[(Turns + 1) % 2].ShipMap.Map;
+            var enemyShipMap = Players[(Turns + 1) % 2].ShipMap.Map;
 
             bool isStillAlive = false;
 
-
-            foreach (var item in enemyShipMap)
+            foreach (var item in enemyShipMap.Values)
             {
                 if (ShipsAvailableInGame.Keys.Where(ship => ship.Icon == item).Count() == 1)
                 {
@@ -138,7 +137,7 @@ namespace BattleshipsGame
             var validationResult = Validators.IsValidCoordinate(input);
             if (!validationResult.isValid)
             {
-                return (false, validationResult.message);
+                return validationResult;
             }
 
             //burde opdatere dette til next player eller enemyplayer properties/metoder
