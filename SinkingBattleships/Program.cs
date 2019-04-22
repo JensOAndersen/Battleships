@@ -101,6 +101,7 @@ namespace SinkingBattleships
                 //setting up player maps
                 for (int playerNumber = 0; playerNumber < game.Players.Length; playerNumber++)
                 {
+                    Console.Clear();
                     foreach (var shipKvP in game.ShipsAvailableInGame)
                     {
                         for (int j = 0; j < shipKvP.Value; j++)
@@ -130,8 +131,6 @@ namespace SinkingBattleships
                 //Main game loop
                 do
                 {
-                    game.Turns++;
-
                     Console.Clear();
 
                     Console.WriteLine(game.StartRoundMsg());
@@ -145,6 +144,8 @@ namespace SinkingBattleships
                     Console.WriteLine(shootAtEnemyResult.message);
 
                     Console.ReadKey(true);
+
+                    game.Turns++;
                 } while (game.IsRunning());
             }
         }

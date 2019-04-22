@@ -12,7 +12,11 @@ namespace BattleshipsGame
             new Player()
         };
 
-        public int Turns { get; set; }
+        public int Turns
+        {
+            get;
+            set;
+        }
         public int GetPlayerTurn
         {
             get { return Turns % 2; }
@@ -78,7 +82,11 @@ namespace BattleshipsGame
             }
         }
 
-
+        /// <summary>
+        /// Call this method whenever a user is placing a ship, it returns a message about what ship is about to be placed
+        /// </summary>
+        /// <param name="ship">The ship to be placed</param>
+        /// <returns>a string describing the ship to be placed</returns>
         public string ShipPlacementMessage(Ship ship)
         {
             string output =
@@ -161,7 +169,7 @@ namespace BattleshipsGame
         public (bool isValid, string message) PlaceShip(string input, Ship ship, int playerNumber)
         {
             input = input.ToLower();
-            return Players[playerNumber].ShipMap.PlaceShip(input, ship);
+            return Players[playerNumber].PlaceShip(input, ship);
         }
 
         /// <summary>

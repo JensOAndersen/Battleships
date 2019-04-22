@@ -11,5 +11,10 @@ namespace BattleshipsGame
         public FlatMap HitMap { get; } = new FlatMap();
         public Player()
         {}
+
+        public (bool isValid, string Message) PlaceShip(string str, Ship ship)
+        {
+            return ShipMap.PlaceShip(str, ship);
+        }
     }
 }

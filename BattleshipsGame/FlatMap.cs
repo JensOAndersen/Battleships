@@ -9,7 +9,7 @@ namespace BattleshipsGame
     /*
      * You are working on the validation methods, splitting them up sot he methods only return a single coherent value
      */
-    public class FlatMap : IMap
+    public class FlatMap
     {
         private string[,] map;
 
@@ -189,7 +189,7 @@ namespace BattleshipsGame
         /// Creates a visual representation of map as an array of lines
         /// </summary>
         /// <returns>an array of lines in a multiline map</returns>
-        public static string[] CreateMap(IMap map)
+        public static string[] CreateMap(FlatMap map)
         {
             List<string> output = new List<string>();
 
