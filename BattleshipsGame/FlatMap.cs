@@ -58,17 +58,7 @@ namespace BattleshipsGame
         /// <returns>whether it succeeded or not, and a message</returns>
         public override (bool isValid, string message) PlaceShip(string str, Ship ship)
         { //input is in the format "c4 te" - hopefully
-            string input = str.Trim();
 
-            if (string.IsNullOrEmpty(input))
-            {
-                return (false, "You are not allowed to enter an empty position");
-            }
-
-            if (input.Length != 5 || input[2] != ' ')
-            {
-                return (false, "The command is invalid");
-            }
 
             int yStart = 0;
             int xStart = 0;
