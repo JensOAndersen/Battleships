@@ -168,7 +168,19 @@ namespace BattleshipsGame
 
         public (bool isValid, string message) PlaceShip(string input, Ship ship, int playerNumber)
         {
-            input = input.ToLower();
+            input = input.ToLower(); //lowercase and trim input
+            input = input.Trim();
+
+            if (string.IsNullOrEmpty(input)) //validate for empty or null value
+            {
+                return (false, "You are not allowed to enter an empty position");
+            }
+
+            if (input.Length != 5 || input[2] != ' ') //make sure input is the right length
+            {
+                return (false, "The command is invalid");
+            }
+
             return Players[playerNumber].PlaceShip(input, ship);
         }
 
